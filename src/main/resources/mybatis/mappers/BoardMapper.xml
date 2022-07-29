@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.pincar.mybatis.mapper.BoardMapper">
+
+    <select id="findAll" resultType="BoardDto">
+        SELECT id, content, title, writer, created_at, updated_at
+        FROM board
+    </select>
+
+    <select id="findById" resultType="BoardDto">
+        SELECT id, content, title, writer, created_at, updated_at
+        FROM board
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByWriter" resultType="BoardDto">
+        SELECT id, content, title, writer, created_at, updated_at
+        FROM board
+        WHERE writer = #{writer}
+    </select>
+
+    <select id="writerCheck" resultType="int">
+        SELECT COUNT(id)
+        FROM user
+        WHERE writer = #{writer}
+    </select>
+
+<!--    <insert id="save" useGeneratedKeys="true" keyProperty="id">-->
+<!--        INSERT INTO user (content, title, writer)-->
+<!--        values (#{content}, #{title}, #{writer})-->
+<!--    </insert>-->
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board (content, title, writer, created_at,updated_at)
+        values (#{content}, #{title}, #{writer},#{createdAt},#{updatedAt})
+    </insert>
+
+</mapper>

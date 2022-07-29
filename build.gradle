@@ -1,0 +1,110 @@
+buildscript {
+    ext {
+        queryDslVersion = "4.4.0"
+        handlebars = "0.3.3"
+        handlebarsHelper = "4.2.0"
+        swagger = "3.0.0"
+        commonLang = "3.12.0"
+        commonsFileupload = "1.4"
+        log4jdbc = "1.16"
+        logback = "4.11"
+    }
+}
+
+plugins {
+    id "org.springframework.boot" version "2.5.6"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "java"
+}
+
+group = "kr.co.pincar"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = "11"
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+
+    implementation "pl.allegro.tech.boot:handlebars-spring-boot-starter:${handlebars}"
+    implementation "com.github.jknack:handlebars-helpers:${handlebarsHelper}"
+    implementation "com.github.jknack:handlebars-jackson2:${handlebarsHelper}"
+    implementation "com.github.jknack:handlebars-humanize:${handlebarsHelper}"
+    implementation "com.github.jknack:handlebars-markdown:${handlebarsHelper}"
+
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0"
+
+    compileOnly "org.projectlombok:lombok"
+
+    // API Doc - Swagger
+//    implementation "io.springfox:springfox-swagger2:${swagger}"
+//    implementation "io.springfox:springfox-boot-starter:${swagger}"
+//    implementation "io.springfox:springfox-swagger-ui:${swagger}"
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation "io.springfox:springfox-swagger-ui:3.0.0"
+    implementation "io.swagger:swagger-annotations:1.5.21"
+    implementation "io.swagger:swagger-models:1.5.21"
+
+
+    // Apache Common Lang
+    implementation "org.apache.commons:commons-lang3:${commonLang}"
+
+    // file upload
+    implementation "commons-fileupload:commons-fileupload:${commonsFileupload}"
+
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor(
+            "javax.persistence:javax.persistence-api",
+            "javax.annotation:javax.annotation-api",
+            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    runtimeOnly "mysql:mysql-connector-java"
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor "org.projectlombok:lombok"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.security:spring-security-test"
+
+    // Logging
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbc}"
+//    implementation "net.logstash.logback:logstash-logback-encoder:${logback}"
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    implementation "io.swagger:swagger-annotations:1.5.21"
+    implementation "io.swagger:swagger-models:1.5.21"
+}
+
+
+//// QueryDSL
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+//        }
+//    }
+//}
+
+test {
+    useJUnitPlatform()
+}
+
+//spring boot 2.X upper...
+//bootJar { enabled = false }  // bootWar or bootJar
+jar { enabled = false }

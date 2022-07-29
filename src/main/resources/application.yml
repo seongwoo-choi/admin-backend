@@ -1,0 +1,125 @@
+info:
+  app:
+    encoding: UTF-8
+    name: pincar-ag-admin
+
+server:
+  port: 8080
+#spring.profiles.active=default
+spring:
+  devtools:
+    add-properties: false
+  ########## For keep db connection
+  datasource:
+    tomcat:
+      ##-- configuring auto reconnect
+      test-on-borrow: true
+      # ??? ??? ?? ???? ??
+      test-on-return: false
+      max-idle: 20
+      max-active: 100
+      max-wait: 10000
+    ##mysql
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 'chma0326@'
+    type: com.zaxxer.hikari.HikariDataSource
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  #        globally_quoted_identifiers: true
+  #        default_batch_fetch_size: 1000
+  ##        dialect: org.hibernate.dialect.MySQLDialect
+  #        naming:
+  #          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  #          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  ## MULTIPART (MultipartProperties)
+  servlet:
+    multipart:
+      # Enable multipart uploads
+      enabled: true
+      # Threshold after which files are written to disk.
+      file-size-threshold: 2KB
+      # Max file size
+      max-file-size: 200MB
+      # Max Request Size
+      max-request-size: 215MB
+
+##--Server HTTP port-------------------------------------------------------------------------------------------------
+#server:
+#  port: 8080
+#  servlet:
+#    context-path: /
+
+# ===============================
+# = DATA SOURCE
+# ===============================
+# Set here configurations for the database connection
+mybatis:
+  mapper-locations: classpath:/mybatis/mappers/*.xml
+  config-location: classpath:sql-mybatis-config.xml
+  type-aliases-package: kr.co.pincar.mybatis.dto
+
+## Handlebars config
+handlebars:
+  enabled: true
+  prefix: classpath:templates/
+  suffix: .hbs
+  cache: false
+
+# logging.level.web=DEBUG
+
+################### active local ###################
+
+---
+server:
+  port: 8080
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+
+################### active production ###################
+
+---
+server:
+  port: 8081
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.cfrk1tcbgvkf.ap-northeast-2.rds.amazonaws.com/AgAdminProduct
+    username: admin
+    password: 12341234
+    type: com.zaxxer.hikari.HikariDataSource
+
+
+################### active develop ###################
+
+---
+server:
+  port: 8082
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.cfrk1tcbgvkf.ap-northeast-2.rds.amazonaws.com/AgAdminDevelop
+    username: admin
+    password: 12341234
+    type: com.zaxxer.hikari.HikariDataSource
